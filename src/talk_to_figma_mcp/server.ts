@@ -1093,6 +1093,37 @@ server.tool(
   }
 );
 
+// Connect to Channel Tool
+server.tool(
+  "connect_to_channel",
+  "Connect to a specific Figma channel",
+  {
+    channelName: z.string().describe("The name of the channel to connect to")
+  },
+  async ({ channelName }) => {
+    try {
+      await joinChannel(channelName);
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Successfully connected to channel: ${channelName}`
+          }
+        ]
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Error connecting to channel: ${error instanceof Error ? error.message : String(error)}`
+          }
+        ]
+      };
+    }
+  }
+);
+
 // Start the server
 async function main() {
   try {
